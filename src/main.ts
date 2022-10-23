@@ -17,7 +17,7 @@ async function bootstrap() {
     .setTitle('Klasseet Platfrom')
     .setDescription('This is the official Klasseet API documentation')
     .setVersion('1.0.0')
-    .addServer('http://localhost:8000/v1/api')
+    .addServer('https://tanda-secure-school-app.herokuapp.com/api/v1')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
