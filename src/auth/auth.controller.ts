@@ -10,7 +10,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.CREATED)
   @ApiBody({ type: CreateUserDto })
-  @ApiOperation({ description: 'Create User' })
+  @ApiOperation({ summary: 'Create User' })
   @ApiResponse({
     status: 201,
     description: 'Account created successfully.',
@@ -23,7 +23,7 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @ApiBody({ type: LoginUserDto })
-  @ApiOperation({ description: 'login user' })
+  @ApiOperation({ summary: 'login user' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({
     status: 200,
