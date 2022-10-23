@@ -13,9 +13,11 @@ import {
   ApiResponse,
   ApiTags,
   ApiUnauthorizedResponse,
+  getSchemaPath,
 } from '@nestjs/swagger';
 import { JwtGuard } from 'src/auth/guard/jwt-auth.guard';
 import { UserPromiseInterface } from 'src/utils/interfaces';
+import { UserDto } from './dto/user.dto';
 import { UsersService } from './users.service';
 
 @UseGuards(JwtGuard)
@@ -31,6 +33,19 @@ export class UsersController {
   @ApiOkResponse({
     status: 200,
     description: 'Users fetched successfully.',
+    schema: {
+      allOf: [
+        { $ref: getSchemaPath(UserDto) },
+        {
+          properties: {
+            results: {
+              type: 'array',
+              items: {},
+            },
+          },
+        },
+      ],
+    },
   })
   @ApiResponse({
     status: 404,
@@ -46,5 +61,17 @@ export class UsersController {
     @Param('limit', new ParseIntPipe()) limit: number,
   ): Promise<UserPromiseInterface> {
     return this.userService.getAllUsers({ page, limit });
+  }
+
+  @ApiHeader({
+    name: 'Authorization',
+  })
+  @ApiOkResponse({
+    status: 200,
+    description: 'User Detail Fetched successfully.',
+  })
+  @Get(':id')
+  getSingleUser(@Param('id') id: string): Promise<any> {
+    return this.userService.getSingleUser(id);
   }
 }
