@@ -67,9 +67,27 @@ export class UsersController {
     name: 'Authorization',
   })
   @ApiOkResponse({
-    status: 200,
+    status: HttpStatus.FOUND,
     description: 'User Detail Fetched successfully.',
+    schema: {
+      allOf: [
+        { $ref: getSchemaPath(UserDto) },
+        {
+          properties: {
+            results: {
+              type: 'array',
+              items: {},
+            },
+          },
+        },
+      ],
+    },
   })
+  @ApiUnauthorizedResponse({
+    status: 401,
+    description: 'Not authorized.',
+  })
+  @HttpCode(HttpStatus.FOUND)
   @Get(':id')
   getSingleUser(@Param('id') id: string): Promise<any> {
     return this.userService.getSingleUser(id);
