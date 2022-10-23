@@ -17,7 +17,9 @@ async function bootstrap() {
     .setTitle('Klasseet Platfrom')
     .setDescription('This is the official Klasseet API documentation')
     .setVersion('1.0.0')
+    .addServer('http://localhost:8000/v1/api')
     .build();
+
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
   app.enableVersioning({
