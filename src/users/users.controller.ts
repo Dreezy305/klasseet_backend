@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   HttpStatus,
@@ -126,5 +127,28 @@ export class UsersController {
     @Body() dto: EditUserDto,
   ): Promise<any> {
     return this.userService.editUserInfo(id, dto);
+  }
+
+  // DELETE USER
+  @ApiHeader({
+    name: 'Authorization',
+  })
+  @ApiOperation({ summary: 'delete user details' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'user details deleted successfully',
+  })
+  @ApiForbiddenResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: `User doesn't exist.`,
+  })
+  @ApiForbiddenResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized.',
+  })
+  @HttpCode(HttpStatus.OK)
+  @Delete(':id')
+  deleteUserInfo(@Param('id') id: string): Promise<any> {
+    return this.userService.deleteUserInfo(id);
   }
 }

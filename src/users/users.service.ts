@@ -79,4 +79,32 @@ export class UsersService {
       status: HttpStatus.OK,
     };
   }
+
+  async deleteUserInfo(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!user) {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User does not exist',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    const deleteUser = await this.prisma.user.delete({
+      where: { id: id },
+    });
+
+    return {
+      success: true,
+      data: deleteUser,
+      message: 'User Details deleted successfully',
+      status: HttpStatus.OK,
+    };
+  }
 }
